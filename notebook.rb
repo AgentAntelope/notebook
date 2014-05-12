@@ -50,6 +50,7 @@ loop do
     request_body = socket.read(content_length)
     params = Hash[URI.decode_www_form(request_body)]
     content = params['content']
+    database.execute('INSERT INTO notes VALUES (?)', content)
     response_body << "Posted '#{CGI.escapeHTML(content)}' Please go <a href='/show-notes'>back</a>"
   else
     response_body << ("request_method: #{request_method}, request_path: #{request_path}, http_version: #{http_version}" + CRLF)
