@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
+
+require 'cgi'
 require 'socket'
 require 'sqlite3'
+require 'uri'
 
 CRLF = "\r\n"
 
@@ -29,7 +32,7 @@ loop do
     response_body << '<ul>'
     # show ALL the notes
     database.execute('SELECT * FROM notes') do |(content)|
-      response_body << "<li>#{content}</li>"
+      response_body << "<li>#{CGI.escapeHTML(content)}</li>"
     end
 
     response_body << '</ul>'
