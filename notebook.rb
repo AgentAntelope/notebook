@@ -36,6 +36,21 @@ loop do
     end
 
     response_body << '</ul>'
+
+    response_body << %q{
+      <form action="/create-note" method="post">
+        <input name="content" maxlength="140" autofocus>
+        <input type="submit">
+      </form>
+    }
+  when ['POST', '/create-note']
+    # write the note
+    content_length_header = header_lines.detect {|line| line.start_with?('Content-Length:')}
+    content_length = content_length_header.slice(/\d+/).to_i
+    request_body = socket.read(content_length)
+    params = Hash[URI.decode_www_form(request_body)]
+    content = params['content']
+    response_body << "Posted '#{CGI.escapeHTML(content)}' Please go <a href='/show-notes'>back</a>"
   else
     response_body << ("request_method: #{request_method}, request_path: #{request_path}, http_version: #{http_version}" + CRLF)
   end
