@@ -21,9 +21,6 @@ loop do
   request_line, *header_lines = lines
   request_method, request_path, http_version =  request_line.split(' ')
 
-  socket.write 'HTTP/1.1 200 OK' + CRLF
-  socket.write 'Content-Type: text/html' + CRLF
-  socket.write CRLF
 
   response_body = ''
 
@@ -56,6 +53,9 @@ loop do
     response_body << ("request_method: #{request_method}, request_path: #{request_path}, http_version: #{http_version}" + CRLF)
   end
 
+  socket.write 'HTTP/1.1 200 OK' + CRLF
+  socket.write 'Content-Type: text/html' + CRLF
+  socket.write CRLF
   socket.write response_body
   socket.close
 end
