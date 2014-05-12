@@ -15,6 +15,7 @@ loop do
   request_line, *header_lines = lines
   request_method, request_path, http_version =  request_line.split(' ')
 
-  puts "request_method: #{request_method}, request_path: #{request_path}, http_version: #{http_version}"
+  socket.puts "request_method: #{request_method}, request_path: #{request_path}, http_version: #{http_version}"
+  socket.close
 end
 
